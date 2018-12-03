@@ -89,7 +89,7 @@ function! neomake#fix#entry(action, entry) abort
                 call neomake#log#info(printf('%s: fixed %s => %s (line %d).', maker.name, string(old), string(replacement[0]), start), {'bufnr': a:entry.bufnr})
             endif
 
-            let err = neomake#compat#buf_set_lines(a:entry.bufnr, start, end, replacement)
+            let err = neomake#utils#buf_set_lines(a:entry.bufnr, start, end, replacement)
             if !empty(err)
                 call neomake#log#error(printf('Fixing entry failed: %s.', err))
                 return
@@ -105,7 +105,7 @@ function! neomake#fix#entry(action, entry) abort
         " Related: https://github.com/neomake/neomake/pull/1776
         elseif action ==# 'append_to_line'
             let [lnum, append] = args
-            let old = neomake#compat#buf_get_lines(a:entry.bufnr, lnum, lnum+1)[0]
+            let old = neomake#utils#buf_get_lines(a:entry.bufnr, lnum, lnum+1)[0]
             let new = old . append
 
             call neomake#log#info(printf('%s: fixed %s => %s (line %d).', maker.name, string(old), string(new), lnum), {'bufnr': a:entry.bufnr})
