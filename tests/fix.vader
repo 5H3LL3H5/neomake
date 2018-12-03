@@ -132,9 +132,9 @@ Execute (fixer: setlines):
   call neomake#fix#entry('fix', entry)
   AssertEqual getline(1, '$'), ['1', '2', '3']
   if exists('*nvim_buf_set_lines')
-    AssertNeomakeMessage 'Fixing entry failed: neomake#compat#buf_set_lines: Index out of bounds.', 0
+    AssertNeomakeMessage 'Fixing entry failed: neomake#utils#buf_set_lines: Index out of bounds.', 0
   else
-    AssertNeomakeMessage 'Fixing entry failed: neomake#compat#buf_set_lines: end is higher than number of lines.', 0
+    AssertNeomakeMessage 'Fixing entry failed: neomake#utils#buf_set_lines: end is higher than number of lines.', 0
   endif
 
   " Out of bounds: start > end.
@@ -189,7 +189,7 @@ Execute (Fix can be applied from quickfix mapping (ignore)):
   call setline(1, ['exec $cmd'])
   AssertEqual getline(1, '$'), ['exec $cmd']
 
-  let maker = NeomakeTestsGetMakerWithOutput('neomake#makers#ft#sh#shellcheck', [
+  let maker = NeomakeTestsGetMakerWithOutput(neomake#makers#ft#sh#shellcheck(), [
     \ bufname('%').':1:6: note: Double quote to prevent globbing and word splitting. [SC2086]',
     \ ])
   let maker.name = 'shellcheck'
@@ -226,7 +226,7 @@ Execute (Fix can be applied from quickfix mapping (fix)):
   call setline(1, ['exec $cmd'])
   AssertEqual getline(1, '$'), ['exec $cmd']
 
-  let maker = NeomakeTestsGetMakerWithOutput('neomake#makers#ft#sh#shellcheck', [
+  let maker = NeomakeTestsGetMakerWithOutput(neomake#makers#ft#sh#shellcheck(), [
     \ bufname('%').':1:6: note: Double quote to prevent globbing and word splitting. [SC2086]',
     \ ])
   let maker.name = 'shellcheck'
